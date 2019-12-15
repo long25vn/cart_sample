@@ -1,4 +1,4 @@
 # cart_sample
 <a href="https://www.youtube.com/embed/55AwHMoG4EE
-" target="_blank"><img src="https://miro.medium.com/max/540/1*EsZiL8weIycbTDMo2m49MA.png" 
-alt="IMAGE ALT TEXT HERE" width="240" height="640" border="10" /></a>
+" target="_blank"><img src="https://i.imgur.com/QPmifTf.png"
+alt="IMAGE ALT TEXT HERE" width="486" height="960" border="10" /></a>
