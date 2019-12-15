@@ -1,3 +1,4 @@
+import 'package:cart_sample/add.dart';
 import 'package:flutter/material.dart';
 import 'package:cart_sample/drawer.dart';
 import 'package:cart_sample/fruit.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
           '/fruit': (context) => Fruit(),
           '/clothes': (context) => Clothes(),
           '/cart': (context) => CartPage(),
+          '/add-item': (context) => AddItemPage(),
         },
       ),
     );

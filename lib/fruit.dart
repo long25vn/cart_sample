@@ -12,13 +12,7 @@ class Fruit extends StatefulWidget {
 
 class _FruitState extends State<Fruit> {
   var cartItem;
-  List<Item> listFruit = [
-    Item(id: 1, item: "Cam", check: false),
-    Item(id: 2, item: "Táo", check: false),
-    Item(id: 3, item: "Xoài", check: false),
-    Item(id: 4, item: "Mít", check: false),
-    Item(id: 5, item: "Nho", check: false)
-  ];
+
 
   void changeCheck(List<Item> listFruit, int index, bool checked) {
     setState(() {
@@ -32,6 +26,52 @@ class _FruitState extends State<Fruit> {
     });
   }
 
+  void _removeItemFromCart(int index) {
+    setState(() {
+      cartItem.cart.removeItemFromCart(index);
+    });
+  }
+
+  void _addItemToList() {
+    setState(() {
+      cartItem.cart.listFruit.add(Item(id: 6, item: "Bưởi", check: false));
+    });
+  }
+
+  void _removeItemFromList(int itemId) {
+    setState(() {
+      cartItem.cart.listFruit.removeWhere((item) => item.id == itemId);
+    });
+  }
+
+  void _showDialog(int itemId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Xác nhận xóa"),
+          content: new Text("Bạn có chắc chắn muốn xóa không?"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Hủy"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Xóa"),
+              onPressed: () {
+                _removeItemFromList(itemId);
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     cartItem = CartWidget.of(context);
@@ -39,24 +79,50 @@ class _FruitState extends State<Fruit> {
       drawer: DrawerMenu(),
       appBar: AppBar(
         title: Text("Hoa quả"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, "/add-item");
+            },
+          )
+        ],
       ),
 
       body: ListView.builder(
-        itemCount: listFruit.length,
+        itemCount: cartItem.cart.listFruit.length,
         itemBuilder: (context, index) {
-          return Container(
-            child: CheckboxListTile(
-              value: listFruit[index].check,
-              title: Text(listFruit[index].item),
-              onChanged: (bool  val) {
-                changeCheck(listFruit, index, val);
-                _addItemtoCart(listFruit[index].id);
+          return GestureDetector (
+              onLongPress: () {
+                print("Xem thu cai");
+                _showDialog(cartItem.cart.listFruit[index].id);
               },
+              child: Container(
+              child: CheckboxListTile(
+                value: cartItem.cart.listFruit[index].check,
+                title: Text(cartItem.cart.listFruit[index].item),
+                onChanged: (bool  val) {
+                  print(val);
+                  changeCheck(cartItem.cart.listFruit, index, val);
+                  if (val == true) {
+                    _addItemtoCart(cartItem.cart.listFruit[index].id);
+                  } else {
+                    _removeItemFromCart(cartItem.cart.listFruit[index].id);
+                  }
+                },
+                
+              ),
             ),
           );
         },
-      )
-
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        tooltip: 'Increment',
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
+
+
